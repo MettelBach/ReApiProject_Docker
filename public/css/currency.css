@@ -1,0 +1,146 @@
+.blocks {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0 30px 0;
+}
+
+.swipe {
+    display: none;
+    width: 60px;
+    height: 70px;
+}
+
+@media (max-width: 768px) {
+    .blocks {
+        overflow: scroll;
+    }
+
+    .swipe {
+        display: block;
+    }
+
+    img.w-100 {
+        width: 260% !important;
+    }
+
+    ul.valuts li {
+        margin-bottom: 5px;
+    }
+
+    ul.valuts {
+        margin-bottom: 0 !important;
+    }
+}
+
+.carousel-indicators {
+    margin-bottom: -30px !important;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.container h2, .container p.price-one, .container p.price-two {
+    color: white;
+}
+
+.container p.price-one, .container p.price-two {
+    margin-top: 10px;
+}
+
+.input-container select,
+.input-container input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.block {
+    border: 1px solid rgb(196, 188, 188);
+    padding: 16px 40px 18px 40px;
+    margin-bottom: auto;
+    border-radius: 15px;
+}
+
+.button-st img {
+    width: 30px;
+}
+
+.button-st {
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 0 15px 0 15px;
+}
+
+.buttons {
+    display: flex;
+}
+
+.button-con button {
+    margin-right: 15px;
+    background-color: transparent;
+    color: #F2CC8F;
+    border: 2px solid #F2CC8F;
+    border-radius: 20px;
+    width: 180px;
+    height: 50px;
+}
+
+.button-con button:hover {
+    background-color: #F2CC8F;
+    color: black;
+    border: 2px solid #F2CC8F;
+}
+
+.button-buy button {
+    background-color: #F2CC8F;
+    color: black;
+    border: 2px solid #F2CC8F;
+    border-radius: 20px;
+    width: 180px;
+    height: 50px;
+}
+
+.button-buy button:hover {
+    background-color: gold;
+}
+
+img.d-block {
+    opacity: 0 !important;
+}
+
+ul.valuts {
+    padding-left: 0 !important;
+    list-style-type: none;
+}
+
+ul.valuts li {
+    text-align: center;
+    color: white;
+    background-color: rgb(33,37,41);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 25px;
+}
+
+.xxx {
+    color: #cff4fc !important;
+}
+
+.btns-xxx {
+    display: inline;
+}
+
+.btns-xxx a {
+    text-align: right;
+    margin-right: 15px;
+}

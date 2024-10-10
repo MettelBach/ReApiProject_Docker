@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Edit</title>
+
+        <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+
+        <!-- CSS FILES -->                
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+        
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+        <link href="css/tooplate-kool-form-pack.css" rel="stylesheet">
+
+        <link href="css/acc-2-page.css" rel="stylesheet">
+        
+<!--
+
+Tooplate 2136 Kool Form Pack
+
+https://www.tooplate.com/view/2136-kool-form-pack
+
+Bootstrap 5 Form Pack Template
+
+-->
+    </head>
+    
+    <body>
+
+        <main>
+
+            <%- include("./partials/header.ejs") %>
+
+            <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+                <div class="container" style="max-width: 2000px;">
+                    <div class="row justify-content-center">
+                        <div class="col-md-7">
+                            <div class="rounded bg-white" style="padding-right: 40px; padding-left: 40px;">
+                                <div class="row">
+                                    <div class="col-md-3 border-right">
+                                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                                            <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                                            <span class="font-weight-bold"><%- user.name %> <%- user.surname %></span>
+                                            <span class="text-black-50"><%- user.email %></span>
+                                            <span class="text-black-50"><%- user.phone %></span>
+                                            <span> </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 border-right">
+                                        <div class="p-3 py-5">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h4 class="text-right">Profile Settings</h4>
+                                            </div>
+                                            <form class="custom-form" role="form">
+
+                                            <div class="payment-success"></div>
+
+                                            <div class="row mt-2">
+                                                <div class="col-md-6">
+                                                    <label class="labels">Name</label>
+                                                    <input type="text" class="form-control name" placeholder="Name" value="">
+                                                    <div class="name-error"></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="labels">Surname</label>
+                                                    <input type="text" class="form-control surname" value="" placeholder="Surname">
+                                                    <div class="surname-error"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="col-md-6">
+                                                    <label class="labels">Phone</label>
+                                                    <input type="tel" class="form-control phone" placeholder="Phone" value="">
+                                                    <div class="phone-error"></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="labels">Email</label>
+                                                    <input type="email" class="form-control email" placeholder="Email" value="">
+                                                    <div class="email-error"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="col-md-12">
+                                                    <label class="labels" for="password">New Password</label>
+                                                    <input type="password" class="form-control newPassword" placeholder="New Password" value="" name="password" id="password">
+                                                    <div class="password-error"></div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-5 text-center">
+                                                <button class="btn btn-primary profile-button" type="button">Save Profile</button>
+                                                <a href="/account" class="btn btn-primary-outline back">Back</a>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                </div>
+
+                <div class="video-wrap">
+                    <video autoplay="" loop="" muted="" class="custom-video" poster="">
+                        <source src="videos/video.mp4" type="video/mp4">
+
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </section>
+        </main>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const saveProfileBtn = document.querySelector(".profile-button");
+                const nameInput = document.querySelector(".name");
+                const surnameInput = document.querySelector(".surname");
+                const phoneInput = document.querySelector(".phone");
+                const emailInput = document.querySelector(".email");
+                const newPasswordInput = document.querySelector(".newPassword");
+        
+                const emailError = document.querySelector(".email-error");
+                const passwordError = document.querySelector(".password-error");
+                const nameError = document.querySelector(".name-error");
+                const surnameError = document.querySelector(".surname-error");
+                const phoneError = document.querySelector(".phone-error");
+                const paymentSuccess = document.querySelector(".payment-success");
+
+                saveProfileBtn.addEventListener("click", async () => {
+                    const data = {
+                        name: nameInput.value,
+                        surname: surnameInput.value,
+                        phone: phoneInput.value,
+                        email: emailInput.value,
+                        newPassword: newPasswordInput.value
+                    };
+                    
+                    console.log(data.name);
+                    
+                    try {
+                        const res = await fetch("/update-profile", {
+                            method: "PUT",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(data)
+                        });
+        
+                        const response = await res.json();
+                        
+                        if (response.errors) {
+                        if (response.errors.email) {
+                            emailError.innerHTML = `
+                            <div class="alert alert-danger d-flex align-items-center email-error" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                <div>
+                                    ${response.errors.email}
+                                </div>
+                            </div>
+                            `;
+                        } else {
+                            emailError.innerHTML = `<div class="email-error"></div>`;
+                        }
+
+                        if (response.errors.password) {
+                            passwordError.innerHTML = `
+                            <div class="alert alert-danger d-flex align-items-center password-error" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                <div>
+                                    ${response.errors.password}
+                                </div>
+                            </div>
+                            `;
+                        } else {
+                            passwordError.innerHTML = `<div class="password-error"></div>`;
+                        }
+                        
+                        if (response.errors.name) {
+                            nameError.innerHTML = `
+                            <div class="alert alert-danger d-flex align-items-center name-error" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                <div>
+                                    ${response.errors.name}
+                                </div>
+                            </div>
+                            `;
+                        } else {
+                            nameError.innerHTML = `<div class="name-error"></div>`;
+                        }
+
+                        if (response.errors.surname) {
+                            surnameError.innerHTML = `
+                            <div class="alert alert-danger d-flex align-items-center surname-error" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                <div>
+                                    ${response.errors.surname}
+                                </div>
+                            </div>
+                            `;
+                        } else {
+                            surnameError.innerHTML = `<div class="surname-error"></div>`;
+                        }
+
+                        if (response.errors.phone) {
+                            phoneError.innerHTML = `
+                            <div class="alert alert-danger d-flex align-items-center phone-error" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                <div>
+                                    ${response.errors.phone}
+                                </div>
+                            </div>
+                            `;
+                        } else {
+                            phoneError.innerHTML = `<div class="phone-error"></div>`;
+                        }
+                        }
+                        if (response.success) {
+                            nameError.innerHTML = `<div class="name-error"></div>`;
+                            surnameError.innerHTML = `<div class="surname-error"></div>`;
+                            phoneError.innerHTML = `<div class="phone-error"></div>`;
+                            emailError.innerHTML = `<div class="email-error"></div>`;
+                            passwordError.innerHTML = `<div class="password-error"></div>`;
+
+                            paymentSuccess.innerHTML = `
+                            <div class="alert alert-success d-flex align-items-center payment-success" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                            <div>
+                                Successfully updated!
+                            </div>
+                            </div>
+                            `;
+
+                            setTimeout(() => {
+                            window.location.reload();
+                            }, 3000);
+                        } else {
+                            console.error(response.error);
+                        }
+                    } catch (error) {
+                        console.error("Failed to update profile:", error);
+                    }
+                });
+            });
+        </script>        
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/countdown.js"></script>
+        <script src="js/init.js"></script>
+
+    </body>
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Send Money</title>
+
+        <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+
+        <!-- CSS FILES -->                
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+        
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+        <link href="css/tooplate-kool-form-pack.css" rel="stylesheet">
+<!--
+
+Tooplate 2136 Kool Form Pack
+
+https://www.tooplate.com/view/2136-kool-form-pack
+
+Bootstrap 5 Form Pack Template
+
+-->
+    </head>
+    
+    <body>
+
+        <main>
+
+            <%- include("./partials/header.ejs") %>
+
+            <section class="hero-section d-flex justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-5 col-12 mx-auto">
+                            <form class="custom-form" role="form" method="post" action="/send-money">
+                                <h2 class="hero-title text-center mb-4 pb-2">Send Money</h2>
+                            
+                                <div class="form-floating mt-4">
+                                    <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Recipient Email" required>
+                                    <label for="email">Email</label>
+                                    <div class="email-error"></div>
+                                </div>
+                            
+
+                                <div class="row mt-2">
+                                    <div class="form-floating mt-4 col-md-8">
+                                        <input type="number" name="amount" id="amount" class="form-control" placeholder="Amount" step="0.01" min="0.00" oninput="formatInput(this)" required>
+                                        <label for="amount">Amount</label>
+                                        <div class="amount-error"></div>
+                                    </div>
+                                
+                                    <div class="form-floating mt-4 col-md-4">
+                                        <select class="form-control form-select form-select-lg" name="currency" aria-label="Currency" required>
+                                            <option value="PLN" selected>PLN</option>
+                                            <option value="USD">USD</option>
+                                            <option value="EUR">EUR</option>
+                                            <option value="UAH">UAH</option>
+                                        </select>
+                                        <label for="currency">Currency</label>
+                                    </div>
+                                 </div>
+
+                                 <div class="payment-success"></div>
+
+                                <div class="row">
+                                    <div class="col-lg-5 col-12 mx-auto">
+                                        <button type="submit" class="form-control">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-wrap">
+                    <video autoplay="" loop="" muted="" class="custom-video" poster="">
+                        <source src="videos/video.mp4" type="video/mp4">
+
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </section>
+        </main>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        function formatInput(input) {
+            input.value = parseFloat(input.value).toFixed(2);
+        }
+
+        document.getElementById("amount").value = "0.00";
+        const sendMoneyForm = document.querySelector(".custom-form");
+
+        sendMoneyForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const emailError = document.querySelector(".email-error");
+        const amountError = document.querySelector(".amount-error");
+        const paymentSuccess = document.querySelector(".payment-success");
+
+        const email = document.getElementById("email").value;
+        const amount = document.getElementById("amount").value;
+        const currency = document.querySelector(".form-select").value;
+
+        try {
+            const response = await fetch("/send-money", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify({ email, amount, currency })
+            });
+
+            const data = await response.json();
+
+            if (data.errors) {
+                if (data.errors.email) {
+                    emailError.innerHTML = `
+                        <div class="alert alert-danger d-flex align-items-center email-error" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                            <div>
+                                ${data.errors.email}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    emailError.innerHTML = `<div class="email-error"></div>`;
+                }
+
+                if (data.errors.amount) {
+                    amountError.innerHTML = `
+                        <div class="alert alert-danger d-flex align-items-center amount-error" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                            <div>
+                                ${data.errors.amount}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    amountError.innerHTML = `<div class="amount-error"></div>`;
+                }
+            }
+
+            if (data.success) {
+                emailError.innerHTML = `<div class="email-error"></div>`;
+                amountError.innerHTML = `<div class="amount-error"></div>`;
+
+                paymentSuccess.innerHTML = `
+                        <div class="alert alert-success d-flex align-items-center payment-success" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                            <div>
+                                You successfully transfer you money!
+                            </div>
+                        </div>
+                    `;
+
+                setTimeout(() => {
+                window.location.reload();
+                }, 3000);
+            } else {
+                console.error(data.error);
+            }
+        } catch (error) {
+            console.error("Error sending money:", error);
+        }
+    });
+});
+
+        </script>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/countdown.js"></script>
+        <script src="js/init.js"></script>
+
+    </body>
+</html>

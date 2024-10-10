@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Account page</title>
+
+        <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+
+        <!-- CSS FILES -->                
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+        
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+        <link href="css/tooplate-kool-form-pack.css" rel="stylesheet">
+
+        <link href="css/acc-page.css" rel="stylesheet">
+        
+<!--
+
+Tooplate 2136 Kool Form Pack
+
+https://www.tooplate.com/view/2136-kool-form-pack
+
+Bootstrap 5 Form Pack Template
+
+-->
+    </head>
+    
+    <body>
+
+        <main>
+
+            <%- include("./partials/header.ejs") %>
+
+            <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+                <div class="container mt-4 mb-4 p-3 d-flex justify-content-center"> 
+                    <div class="card p-4"> 
+                        <div class="image d-flex flex-column justify-content-center align-items-center"> 
+                            <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                        <span class="name mt-3"><%- user.name %> <%- user.surname %></span> 
+                        <div class="d-flex flex-row justify-content-center align-items-center mt-3">
+                            <div class="btn-group dropdown">
+                                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                  My Wallet
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">PLN: <span class="pln-acc"><%- user.wallet.PLN %></span>zł (zl.)</a></li>
+                                    <li><a class="dropdown-item">UAH: <span class="uah-acc"><%- user.wallet.UAH %></span>₴ (hrn.)</a></li>
+                                    <li><a class="dropdown-item">USD: <span class="usd-acc"><%- user.wallet.USD %></span>$ (dol.)</a></li>
+                                    <li><a class="dropdown-item">EUR: <span class="eur-acc"><%- user.wallet.EUR %></span>€ (eur.)</a></li>
+                                </ul>
+                              </div> 
+                    </div> 
+                    <div class=" d-flex mt-2"> 
+                        <a href="/edit">
+                            <button class="btn1 btn-dark new">Edit Profile</button> 
+                        </a>
+                    </div> 
+                    <div class="text mt-3">
+                         <span>Email: <%- user.email %> <br>
+                            Phone: <%- user.phone %> 
+                        </span> 
+                        </div> 
+                        <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center"> 
+                            <span><i class="fa fa-twitter"></i></span>
+                             <span><i class="fa fa-facebook-f"></i></span> 
+                             <span><i class="fa fa-instagram"></i></span> 
+                             <span><i class="fa fa-linkedin"></i></span> 
+                            </div> 
+                            <div class=" px-2 mt-4"> 
+                            <button id="deleteAccountBtn" type="submit" class="btn btn-danger rounded-pill px-3" type="button">Delete</button>
+                        </div> 
+                    </div> 
+                    </div>
+                    </div>
+                </div>
+
+                <div class="video-wrap">
+                    <video autoplay="" loop="" muted="" class="custom-video" poster="">
+                        <source src="videos/video.mp4" type="video/mp4">
+
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </section>
+        </main>
+
+        <script>
+            const deleteAccountBtn = document.getElementById("deleteAccountBtn");
+
+            deleteAccountBtn.addEventListener("click", async () => {
+                try {
+                    fetch(`/delete-account`, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === "Account deleted successfully") {
+                        window.location.href = "/";
+                    } else {
+                        console.error("Failed to delete account:", data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error("Failed to delete account:", error);
+                });
+                } catch (error) {
+                    console.log(error);
+                }
+            });
+        </script>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/countdown.js"></script>
+        <script src="js/init.js"></script>
+
+    </body>
+</html>

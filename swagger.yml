@@ -1,0 +1,231 @@
+openapi: 3.0.3
+info:
+  title: Authentication API
+  description: |-
+    API for user registration, login, logout, user profile management, delete user account and money transfer.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: 4messijess4@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+servers:
+  - url: https://currencyconverter-taw1-e14f133897db.herokuapp.com/
+    description: Re API Project
+tags:
+  - name: Auth JWT
+    description: API for user registration, login, logout, delete user account and user profile management
+  - name: ETC
+    description: Money transfer
+    
+paths:
+  /signup:
+    post:
+      tags: 
+        - Auth JWT
+      summary: Create a new user account
+      description: Creates a new user account with the provided credentials.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 6
+                name:
+                  type: string
+                surname:
+                  type: string
+                phone:
+                  type: string
+      responses:
+        '201':
+          description: User account created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: string
+                    description: The ID of the newly created user
+        '400':
+          description: Bad request, invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    description: Object containing error messages for each field
+
+  /signin:
+    post:
+      tags: 
+        - Auth JWT
+      summary: Authenticate user
+      description: Authenticates user with provided email and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 6
+      responses:
+        '200':
+          description: User authenticated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: string
+                    description: The ID of the authenticated user
+        '400':
+          description: Bad request, invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    description: Object containing error messages for each field
+        '401':
+          description: Unauthorized, invalid credentials
+
+  /logout:
+    get:
+      tags: 
+        - Auth JWT
+      summary: Log out user
+      description: Logs out the currently authenticated user.
+      responses:
+        '200':
+          description: User logged out successfully
+        '401':
+          description: Unauthorized, user not logged in
+
+  /update-profile:
+    put:
+      tags: 
+        - Auth JWT
+      summary: Update user profile
+      description: Update user profile information such as name, surname, phone, email, and password.
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                surname:
+                  type: string
+                phone:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                newPassword:
+                  type: string
+                  minLength: 6
+      responses:
+        '200':
+          description: Profile updated successfully
+        '400':
+          description: Bad request, invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    description: Object containing error messages for each field
+        '401':
+          description: Unauthorized, user not logged in
+
+  /delete-account:
+    delete:
+      tags: 
+        - Auth JWT
+      summary: Delete user account
+      description: Deletes the user account and all associated data.
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Account deleted successfully
+        '401':
+          description: Unauthorized, user not logged in
+
+  /send-money:
+    post:
+      tags: 
+        - ETC
+      summary: Send money to another user
+      description: Allows the authenticated user to send money to another user's wallet.
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                amount:
+                  type: number
+                currency:
+                  type: string
+                  enum: [PLN, UAH, USD, EUR]
+      responses:
+        '200':
+          description: Money sent successfully
+        '400':
+          description: Bad request, invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    description: Object containing error messages for each field
+        '401':
+          description: Unauthorized, user not logged in
+        '404':
+          description: Not Found, recipient user not found
+        '409':
+          description: Conflict, same email as sender
+security:
+  - cookieAuth: []
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: jwt

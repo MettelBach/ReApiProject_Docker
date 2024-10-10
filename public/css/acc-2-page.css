@@ -1,0 +1,59 @@
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 130px 0 50px 0;
+        height: auto;
+    }
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #F2CC8F;
+}
+
+.profile-button {
+    background: #F2CC8F;
+    box-shadow: none;
+    border: 3px solid #F2CC8F;
+    border-radius: 20px;
+}
+
+.profile-button:hover {
+    background: transparent;
+    color: black;
+    border: 3px solid #F2CC8F;
+}
+
+.profile-button:focus {
+    background: #F2CC8F;
+    box-shadow: none;
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none;
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer;
+}
+
+.labels {
+    font-size: 11px;
+}
+
+.back {
+    color: white;
+    background: transparent;
+    color: black;
+    border: 3px solid #F2CC8F;
+    border-radius: 20px;
+    margin-left: 40px;
+}
+
+.back:hover {
+    color: white;
+    background: #F2CC8F;
+    border: 3px solid #F2CC8F;
+    border-radius: 20px;
+}
