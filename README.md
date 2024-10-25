@@ -1,13 +1,26 @@
-<h1>REST API Project</h1>
+# REST API Project
 
-<h3>Website:</h3>
-https://currencyconverter-taw1-e14f133897db.herokuapp.com/
+### Website:
+[Currency Converter](https://currencyconverter-taw1-e14f133897db.herokuapp.com/)
 
-<h3>Swagger Documentation:</h3>
-https://github.com/MettelBach/Re-API-Project/blob/main/SwaggerDocumentation.txt
-    
-<h3>Unit Tests:</h3>
-https://github.com/MettelBach/Re-API-Project/blob/main/tests/auth.test.js
+### Swagger Documentation:
+[Link to Swagger Documentation](https://github.com/MettelBach/Re-API-Project/blob/main/SwaggerDocumentation.txt)
 
-<h3>Informacja o tranzakcjach:</h3>
-https://github.com/MettelBach/Re-API-Project/blob/main/InformacjaOTranzakcjach.jpg
+### Unit Tests:
+[Link to Unit Tests](https://github.com/MettelBach/Re-API-Project/blob/main/tests/auth.test.js)
+
+### Informacja o tranzakcjach:
+[Transaction Information Image](https://github.com/MettelBach/Re-API-Project/blob/main/InformacjaOTranzakcjach.jpg)
+
+### Running the Project with Docker
+
+1. **Install Docker**: Ensure Docker is installed on your machine. [Download Docker](https://www.docker.com/get-started).
+
+2. **Clone the repository**:
+   ```bash
+   git clone https://github.com/MettelBach/ReApiProject_Docker.git
+   cd ReApiProject_Docker
+
+3. **Start the Docker containers**:
+    docker-compose up --build
+4. **Access the application: Open http://localhost:5000 in your browser.**
